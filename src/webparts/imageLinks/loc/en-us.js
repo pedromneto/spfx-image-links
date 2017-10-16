@@ -1,7 +1,8 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Description",
-    "BasicGroupName": "Group Name",
-    "DescriptionFieldLabel": "Description Field"
+    "PropertyPaneDescription": "Propriedades da webpart",
+    "BasicGroupName": "Fonte de dados",
+    "DescriptionFieldTitle": "Informe o título da webpart",
+    "DescriptionFieldList":"Selecione a lista"
   }
 });
