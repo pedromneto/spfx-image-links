@@ -25,7 +25,7 @@ export interface IImageLinksWebPartProps {
 }
 
 export default class ImageLinksWebPartWebPart extends BaseClientSideWebPart<IImageLinksWebPartProps> {
-  private Ambiente: string = "DEV";
+  private Ambiente: string = "PRD";
   private dropdownOptions: IPropertyPaneDropdownOption[];
   private linksExibicao: IListItem[];
 
@@ -74,7 +74,7 @@ export default class ImageLinksWebPartWebPart extends BaseClientSideWebPart<IIma
     };
   }
 
-  protected onInit():Promise<void>{
+  protected onInit(): Promise<void> {
     //SPComponentLoader.loadCss("../../Assets/Geral.css");
     return super.onInit();
   }
@@ -108,22 +108,34 @@ export default class ImageLinksWebPartWebPart extends BaseClientSideWebPart<IIma
         resolve();
       }
       let htmlItens = '';
+      let arrItens: Array<string> = [];
       itens.forEach((item: IListItem, index: number) => {
-        htmlItens += `<div class="${styles.itemLink}">
+        htmlItens += `<div class="ms-Grid-col ms-sm6 ${styles.itemLink}">
+        
             <a href="${item.link}" target="_blank" aria-label=" ${item.titulo} " tabindex="0">
                 <img src="${item.img}"
                   alt="">
                 <p class="item-titulo">
                   ${item.titulo}
                 </p>
-            </a>          
+            </a>
+        
          </div>`;
+        if ((index > 0) && ((index % 6) === 0)) {
+          arrItens.push(`<div class="ms-Grid-row">${htmlItens}</div>`);
+          htmlItens = '';
+        }
+
       });
-      this.domElement.innerHTML = `<div class="row"><div class="${styles.imageLinks}">
+
+      arrItens.push(`<div class="ms-Grid-row">${htmlItens}</div>`);
+
+      htmlItens = arrItens.join();
+
+      this.domElement.innerHTML = `<div><label class="ms-font-xl"> ${this.properties.description}</label><div class="${styles.imageLinks} ms-Grid">
               ${htmlItens}
               </div>
           </div>`;
-          debugger;
     });
 
     return promise;
